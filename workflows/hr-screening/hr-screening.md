@@ -38,19 +38,19 @@ This workflow provides several key advantages:
 
 ### Sample Output
 
-**Candidate Folder Structure**
+#### Candidate Folder Structure
 
 This shows how the workflow automatically creates a dedicated folder for each candidate.
 
 ![Specific of each Candidate folder](https://github.com/panupong1212312121/N8N-Workflow/blob/main/workflows/hr-screening/asset/result1.png)
 
-**Candidate's Resume**
+#### Candidate's Resume
 
 Inside each candidate's folder, their resume and other documents are stored.
 
 ![Candidate's Resume](https://github.com/panupong1212312121/N8N-Workflow/blob/main/workflows/hr-screening/asset/result2.png)
 
-**Candidate Evaluation Sheet**
+#### Candidate Evaluation Sheet
 
 A Google Sheet that stores all applicant data, complete with an automated score and reasoning.
 
