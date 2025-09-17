@@ -32,14 +32,14 @@ This workflow provides several key advantages:
 ---
 
 ### Workflow Diagram
-![HR Screening Workflow](https://github.com/panupong1212312121/N8N-Workflow/assets/workflow.png)
+![HR Screening Workflow](./workflows/hr-screening/asset/workflow.png)
 
 ---
 
 ### Sample Output
-![HR Screening Result 1](https://github.com/panupong1212312121/N8N-Workflow/assets/result1.png)
-![HR Screening Result 2](https://github.com/panupong1212312121/N8N-Workflow/assets/result2.png)
-![HR Screening Result 3](https://github.com/panupong1212312121/N8N-Workflow/assets/result3.png)
+![HR Screening Result 1](./workflows/hr-screening/asset/result1.png)
+![HR Screening Result 2](./workflows/hr-screening/asset/result2.png)
+![HR Screening Result 3](./workflows/hr-screening/asset/result3.png)
 
 ---
 

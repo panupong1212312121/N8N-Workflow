@@ -20,4 +20,5 @@ The primary goal of this repository is to store and document various n8n workflo
 
 Feel free to explore the folders to find the workflow you need!
 
-Note: Workflows cannot be used directly in n8n. You must first configure the necessary settings, such as credentials and API keys for services like Google Drive, Google Sheets, Gemini etc.
+### 📝 Memo
+Workflows cannot be used directly in n8n. You must first configure the necessary settings, such as credentials and API keys for services like Google Drive, Google Sheets, Gemini etc.
