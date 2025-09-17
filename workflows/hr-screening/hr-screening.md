@@ -1,5 +1,46 @@
-## Origin and Problem: Explain the context. What was the original problem or need that this workflow was designed to solve?
+### HR Screening (1st Draft)
 
-## Workflow Logic: Describe how the workflow works step-by-step. What nodes are used? What is the flow of data?
+---
 
-## Benefits: What are the key advantages of using this workflow? How does it save time, automate a process, or solve the problem?
+### Origin and Problem
+
+This workflow was created to address the significant challenges of manual resume screening. The original problems included:
+
+1.  **Time-consuming Process:** A large volume of daily applications led to a slow and inefficient initial screening process, delaying the identification of suitable candidates.
+2.  **Human Error:** The manual handling of applicant data increased the risk of mistakes, such as sending emails or making calls to the wrong contact information.
+
+---
+
+### Workflow Logic
+
+This n8n workflow automates the initial screening of resumes by following a clear, step-by-step logic:
+
+1.  **Data Extraction:** It pulls applicant information from a specified input form.
+2.  **Data Organization:** The extracted data is automatically organized and saved to designated locations, such as individual folders for each applicant and a specific Google Sheet.
+3.  **Candidate Analysis:** The workflow analyzes the applicant's data based on predefined criteria, including desired qualifications and a scoring rubric. It then assigns a score and provides a reasoned explanation for the evaluation, streamlining the selection process.
+
+---
+
+### Benefits
+
+This workflow provides several key advantages:
+
+* **Increased Efficiency:** It drastically reduces the time spent on manual screening, allowing for faster recruitment cycles.
+* **Improved Accuracy:** Automation minimizes human error in handling data, ensuring that all information is correctly stored and processed.
+* **Objective Evaluation:** The automated scoring system provides a consistent and unbiased assessment of candidates, improving the quality of the initial screening.
+
+---
+
+### Workflow Diagram
+![HR Screening Workflow](https://github.com/panupong1212312121/N8N-Workflow/assets/workflow.png)
+
+---
+
+### Sample Output
+![HR Screening Result 1](https://github.com/panupong1212312121/N8N-Workflow/assets/result1.png)
+![HR Screening Result 2](https://github.com/panupong1212312121/N8N-Workflow/assets/result2.png)
+![HR Screening Result 3](https://github.com/panupong1212312121/N8N-Workflow/assets/result3.png)
+
+---
+
+To download the workflow's JSON file, please visit the [**Link To JSON**](https://github.com/panupong1212312121/N8N-Workflow/tree/main/workflows/hr-screening/hr-screening.json).

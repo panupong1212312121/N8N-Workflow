@@ -5,7 +5,7 @@ This repository serves as a collection of n8n workflows I've created. Each workf
 ### 1. How to Use n8n
 
 If you don't have n8n set up yet, you can use Docker to run it locally.
-[Here's a guide on how to install n8n using Docker.](https://docs.n8n.io/getting-started/installation/docker/)
+[สอนใช้ n8n AI Automation EP01 : Install n8n ลงเครื่องตัวเองแบบฟรีๆ ผ่าน Docker.](https://www.youtube.com/watch?v=-5fvbNL8rLA&t=664s)
 
 ### 2. Repository Purpose
 
@@ -13,10 +13,11 @@ The primary goal of this repository is to store and document various n8n workflo
 
 ### 3. Workflow Index
 
-| Workflow Name | Description | Link to JSON File |
+| Workflow Name | Description | Link to Details |
 | :--- | :--- | :--- |
-| My First Workflow | A basic workflow that sends a welcome email. | [Link to JSON](https://github.com/your-username/your-repo-name/blob/main/workflows/my-first-workflow/my-first-workflow.json) |
-| Daily Report Automation | Automates the generation and delivery of daily reports. | [Link to JSON](https://github.com/your-username/your-repo-name/blob/main/workflows/daily-report-automation/daily-report-automation.json) |
-| Social Media Post Scheduler | Schedules posts to various social media platforms. | [Link to JSON](https://github.com/your-username/your-repo-name/blob/main/workflows/social-media-post-scheduler/social-media-post-scheduler.json) |
+| HR Screening (1st Draft) | Automates resume screening from an input form. | [View Details](https://github.com/panupong1212312121/N8N-Workflow/tree/main/workflows/hr-screening/hr-screening.md) |
+| Gen N8N Workflow (Coming Soon) | Generates an n8n workflow (.json file) from a simple prompt. | [View Details](https://github.com/panupong1212312121/N8N-Workflow/tree/main/workflows/gen-n8n-workflow/gen-n8n-workflow.md) |
 
 Feel free to explore the folders to find the workflow you need!
+
+Note: Workflows cannot be used directly in n8n. You must first configure the necessary settings, such as credentials and API keys for services like Google Drive, Google Sheets, Gemini etc.
