@@ -58,4 +58,4 @@ A Google Sheet that stores all applicant data, complete with an automated score 
 
 ---
 
-To download the workflow's JSON file, please visit the [**Link To JSON**](https://github.com/panupong1212312121/N8N-Workflow/tree/main/workflows/hr-screening/hr-screening.json).
+To download the workflow's JSON file, please visit the [**Link to JSON**](https://github.com/panupong1212312121/N8N-Workflow/tree/main/workflows/hr-screening/hr-screening.json).
