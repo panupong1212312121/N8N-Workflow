@@ -32,7 +32,7 @@ This workflow provides several key advantages:
 ---
 
 ### Workflow Diagram
-![HR Screening Workflow](./workflows/hr-screening/asset/workflow.png)
+![HR Screening Workflow](https://github.com/panupong1212312121/N8N-Workflow/blob/main/workflows/hr-screening/asset/workflow.png)
 
 ---
 
