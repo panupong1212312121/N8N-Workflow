@@ -37,9 +37,9 @@ This workflow provides several key advantages:
 ---
 
 ### Sample Output
-![HR Screening Result 1](./workflows/hr-screening/asset/result1.png)
-![HR Screening Result 2](./workflows/hr-screening/asset/result2.png)
-![HR Screening Result 3](./workflows/hr-screening/asset/result3.png)
+![HR Screening Result 1](https://github.com/panupong1212312121/N8N-Workflow/blob/main/workflows/hr-screening/asset/result1.png)
+![HR Screening Result 2](https://github.com/panupong1212312121/N8N-Workflow/blob/main/workflows/hr-screening/asset/result2.png)
+![HR Screening Result 3](https://github.com/panupong1212312121/N8N-Workflow/blob/main/workflows/hr-screening/asset/result3.png)
 
 ---
 
