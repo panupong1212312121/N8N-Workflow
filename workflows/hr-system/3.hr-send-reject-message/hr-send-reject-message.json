@@ -1,0 +1,681 @@
+{
+  "name": "HR Send Reject Candidate (1st draft)",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1008,
+        -112
+      ],
+      "id": "0c90b0a2-bf8a-4e20-b17b-f1d171a3d1a3",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "content": "# Node ที่ใช้",
+        "height": 544,
+        "width": 800,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        -1008
+      ],
+      "id": "9708cc98-bdf4-4a67-9f76-1014df245fb4",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "# Workflow",
+        "height": 784,
+        "width": 1760,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1136,
+        -416
+      ],
+      "id": "15427cd8-769c-4263-8667-c7ad402be2ac",
+      "name": "Sticky Note1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -576,
+        -912
+      ],
+      "id": "08d0f9ec-660d-4e59-abb7-9c7b15ef1f91",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -96,
+        -672
+      ],
+      "id": "d9b865a0-8332-424e-92ea-dda9a3d8eb13",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -96,
+        -912
+      ],
+      "id": "26b95c0d-ce9a-4088-a284-4ee88b1ff2a7",
+      "name": "Merge",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -336,
+        -672
+      ],
+      "id": "a4540835-ec27-465b-aabe-f1d5e5e491bb",
+      "name": "Code in JavaScript",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "54437e1f-b5a8-4202-a0e2-40e6a2ae0d1e",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -352,
+        -912
+      ],
+      "id": "be064b3e-c6d9-4204-bcd0-c3e29be6dc05",
+      "name": "Filter",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit?pli=1&gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidate Status",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Selection Status",
+              "lookupValue": "Not Selected (Screening)"
+            },
+            {
+              "lookupColumn": "Selection Status",
+              "lookupValue": "Not Selected (Interview)"
+            }
+          ]
+        },
+        "combineFilters": "OR",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -704,
+        96
+      ],
+      "id": "602e1171-d413-4955-93ce-b30af961cd9d",
+      "name": "Get candidate's row data from candidate status (After append)1",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// รับข้อมูล input ทั้งหมดจาก Node ก่อนหน้า\nconst items = $input.all();\n\n// === ส่วนที่ 1: การคำนวณวัน/เวลา (ทำครั้งเดียวเพื่อให้ค่าเหมือนกันทุก Item) ===\n\n// 1. กำหนดค่า Date ปัจจุบัน\nconst now = new Date();\n\n// 2. สร้าง Object Date ใหม่ที่คำนวณ Timezone +7 ชั่วโมงเรียบร้อยแล้ว\n// ใช้ setHours() เพื่อบวกชั่วโมง และให้ Date Object จัดการการปรับวันที่ (Daylight Saving/ข้ามวัน) เอง\nconst offsetHours = 7;\nconst newDate = new Date(now.getTime());\nnewDate.setHours(now.getHours() + offsetHours);\n\n// Helper function สำหรับเติมเลข 0 นำหน้า (เช่น 1 -> 01)\nconst pad = (num) => String(num).padStart(2, '0');\n\n// 3. แยกส่วนประกอบของวัน-เวลาจาก 'newDate'\nconst year = newDate.getFullYear();\n// getMonth() เริ่มจาก 0 จึงต้องบวก 1\nconst month = pad(newDate.getMonth() + 1); \nconst day = pad(newDate.getDate());\n\nconst hour = pad(newDate.getHours());\nconst minute = pad(newDate.getMinutes());\nconst second = pad(newDate.getSeconds());\n\n// 4. รวมกันเป็น Format YYYY-MM-DD hh:mm:ss\nconst currentDatetime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;\n\n// === ส่วนที่ 2: การวนลูปเพื่อเพิ่ม Key ใหม่ในแต่ละ Item ===\n\n// วนลูปเพื่อเข้าถึงแต่ละรายการ (item)\nfor (const item of items) {\n    item.json.curr_datetime = currentDatetime;\n}\n\n// ส่งผลลัพธ์ Array กลับ\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        96,
+        112
+      ],
+      "id": "70943b63-000d-4eea-b2a2-1006b883649f",
+      "name": "Gen current datetime"
+    },
+    {
+      "parameters": {
+        "content": "## Click Trigger\n",
+        "height": 228,
+        "width": 220,
+        "color": 2
+      },
+      "id": "12eebbb7-f60f-476f-9294-a9fd677b5c5d",
+      "name": "Sticky Note26",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1072,
+        -176
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## 1. เลือก job role ที่ต้องการจบกระบวนการสรรหา (inactive) ใน job roles sheet\n\n## 2. นำ job role ID จาก 1. มาเทียบกับผู้สมัครที่ถูก reject (selection status เท่ากับ Not Selected (Screening) หรือ Not Selected (Interview) หรืออื่น ๆ ตามแต่กำหนด) ในตำแหน่งงานนั้น ๆ ที่ยังอยู่ในขั้นตอนกระบวนการสรรหา (ยัง active อยู่) ใน candidate status sheet\n\n## 3. ส่ง email ไปหาผู้สมัครที่ถูก reject เหล่านั้น พร้อมกับ stamp สถานะ inactive ใน candidate status sheet\n\n\n",
+        "height": 708,
+        "width": 1356,
+        "color": 4
+      },
+      "id": "9574fcdc-73a7-4465-bfd4-9e60cad2d3c5",
+      "name": "Sticky Note27",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -800,
+        -384
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Result of Application for {{ $json['Job Role'] }} | {{ $json['Candidate Name'] }} at ABC company",
+        "message": "=<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"margin-bottom: 20px;\">\n    <tr>\n        <td align=\"center\">\n            <img src=\"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png\" alt=\"[Company Name] Logo\" style=\"max-width: 150px; height: auto; display: block;\">\n        </td>\n    </tr>\n</table>\n<hr style=\"border: 0; height: 1px; background: #ddd; margin: 15px 0;\">\n\n<p>Dear K.<strong>{{ $json['Candidate Name'] }}</strong>,</p>\n\n<p>Thank you very much for your interest in the \"<span style=\"color: #007bff; font-weight: bold;\">{{ $json['Job Role'] }}</span>\" position at ABC company. We sincerely appreciate you taking the time to submit your application and share your valuable qualifications with us.</p>\n\n<p>After a careful review of all applications, we regret to inform you that <span style=\"background-color: #fff3cd; padding: 2px 4px; border-radius: 3px; font-weight: bold;\">your qualifications were not selected to move forward</span> in the current stage of the recruitment process for this specific role. This decision was exceptionally challenging given the high volume of qualified candidates.</p>\n\n<p>We will keep your resume on file and may contact you should another position matching your profile become available in the future.</p>\n\n<p>We appreciate your understanding and wish you the very best in your career endeavors.</p>\n\n<p style=\"margin-top: 30px;\">\n    Sincerely,<br>\n    <br>\n    <strong>HR Team</strong><br>\n    <span style=\"color: #555555;\">ABC Company</span>\n</p>\n\n<hr style=\"border: 0; height: 1px; background: #ddd; margin: 25px 0 15px 0;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n    <tr>\n        <td style=\"font-size: 12px; color: #888888; line-height: 1.5;\">\n            <strong>[Company Name] Headquarters</strong><br>\n            [Address Line 1]<br>\n            Tel: [Phone Number] | Email: <a href=\"mailto:hr@[companydomain].com\" style=\"color: #007bff; text-decoration: none;\">hr@[companydomain].com</a><br>\n            <br>\n            <a href=\"[Your Careers Page URL]\" style=\"color: #007bff; text-decoration: none;\">View All Openings</a>\n        </td>\n    </tr>\n</table>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -576,
+        -672
+      ],
+      "id": "41ab45d0-620f-4cd0-9862-fd955387865d",
+      "name": "Send a message1",
+      "webhookId": "51e28b52-5cd5-4f45-a6be-c48eabf0a63c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ap1610n2EDygrcwr",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "ID",
+              "field2": "Job Roles ID"
+            }
+          ]
+        },
+        "outputDataFrom": "input2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -176,
+        -32
+      ],
+      "id": "3f48434f-55f9-42f0-ac10-91ac47867fcf",
+      "name": "Merge1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1iGrtEz_v3NBe3VslyrKU7lcojiIZC3uQvhq0UKWbc_Y/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Job",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iGrtEz_v3NBe3VslyrKU7lcojiIZC3uQvhq0UKWbc_Y/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Inactive"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -704,
+        -112
+      ],
+      "id": "855ce605-d723-4dea-9593-f638d4a2470f",
+      "name": "Get job role data",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "915e8df2-bf64-4281-9103-290b1f48d2cd",
+              "leftValue": "={{ $json[\"End Date\"].trim() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -464,
+        96
+      ],
+      "id": "239b37a2-5618-4414-a1b3-650d4ac2db3a",
+      "name": "เลือกเฉพาะ candidate status แถวที่ยัง active อยู่"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Result of Application for {{ $json['Job Role'] }} | {{ $json['Candidate Name'] }} at ABC company",
+        "message": "=<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"margin-bottom: 20px;\">\n    <tr>\n        <td align=\"center\">\n            <img src=\"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png\" alt=\"[Company Name] Logo\" style=\"max-width: 150px; height: auto; display: block;\">\n        </td>\n    </tr>\n</table>\n<hr style=\"border: 0; height: 1px; background: #ddd; margin: 15px 0;\">\n\n<p>Dear K.<strong>{{ $json['Candidate Name'] }}</strong>,</p>\n\n<p>Thank you very much for your interest in the \"<span style=\"color: #007bff; font-weight: bold;\">{{ $json['Job Role'] }}</span>\" position at ABC company. We sincerely appreciate you taking the time to submit your application and share your valuable qualifications with us.</p>\n\n<p>After a careful review of all applications, we regret to inform you that <span style=\"background-color: #fff3cd; padding: 2px 4px; border-radius: 3px; font-weight: bold;\">your qualifications were not selected to move forward</span> in the current stage of the recruitment process for this specific role. This decision was exceptionally challenging given the high volume of qualified candidates.</p>\n\n<p>We will keep your resume on file and may contact you should another position matching your profile become available in the future.</p>\n\n<p>We appreciate your understanding and wish you the very best in your career endeavors.</p>\n\n<p style=\"margin-top: 30px;\">\n    Sincerely,<br>\n    <br>\n    <strong>HR Team</strong><br>\n    <span style=\"color: #555555;\">ABC Company</span>\n</p>\n\n<hr style=\"border: 0; height: 1px; background: #ddd; margin: 25px 0 15px 0;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n    <tr>\n        <td style=\"font-size: 12px; color: #888888; line-height: 1.5;\">\n            <strong>ABC Company Headquarters</strong><br>\n            99/99 Silicon Valley Road, Bangkok, 10000<br>\n            Tel: (66) 02-XXX-XXXX | Email: <a href=\"mailto:hr@abccompany.com\" style=\"color: #007bff; text-decoration: none;\">hr@abccompany.com</a><br>\n            <br>\n            <a href=\"https://www.abccompany.com/careers\" style=\"color: #007bff; text-decoration: none;\">View All Openings</a> | <a href=\"https://www.abccompany.com/unsubscribe\" style=\"color: #007bff; text-decoration: none;\">Unsubscribe</a>\n        </td>\n    </tr>\n</table>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        96,
+        -96
+      ],
+      "id": "1a8acbb9-37c9-4896-a753-8f8b4913dc86",
+      "name": "Send reject message",
+      "webhookId": "51e28b52-5cd5-4f45-a6be-c48eabf0a63c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ap1610n2EDygrcwr",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit?pli=1&gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidate Status",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Inactive",
+            "ID": "={{ $json.ID }}",
+            "End Date": "={{ $json.curr_datetime }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Candidate ID",
+              "displayName": "Candidate ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Roles ID",
+              "displayName": "Job Roles ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Candidate Name",
+              "displayName": "Candidate Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Job Role",
+              "displayName": "Job Role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tel",
+              "displayName": "Tel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Selection Status",
+              "displayName": "Selection Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Create Date",
+              "displayName": "Create Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Update Date",
+              "displayName": "Update Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        320,
+        112
+      ],
+      "id": "0de96880-0534-4b5f-8cba-81a4ef0af57a",
+      "name": "Mark rejected as inactive",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get job role data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get candidate's row data from candidate status (After append)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get candidate's row data from candidate status (After append)1": {
+      "main": [
+        [
+          {
+            "node": "เลือกเฉพาะ candidate status แถวที่ยัง active อยู่",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gen current datetime": {
+      "main": [
+        [
+          {
+            "node": "Mark rejected as inactive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Send reject message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Gen current datetime",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get job role data": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "เลือกเฉพาะ candidate status แถวที่ยัง active อยู่": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Mark rejected as inactive": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "254f9800-9a13-4717-b8d2-f5a7dd223d06",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "91df12515cd6a283b655811ae8756ab40523fa0fb71571e55bfaabd1064045bb"
+  },
+  "id": "zSPWL8UHRY5u5XXL",
+  "tags": []
+}

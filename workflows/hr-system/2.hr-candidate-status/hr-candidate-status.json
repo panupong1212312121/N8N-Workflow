@@ -1,0 +1,1147 @@
+{
+  "name": "HR Candidate Status (1st draft)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# Node ที่ใช้",
+        "height": 672,
+        "width": 1024,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2128,
+        -1584
+      ],
+      "id": "e06e99d0-2d4d-4335-a777-2388ae441a14",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1D9vr6ijk0J1-G8oC27gmvFYm2-TiyaEArGryi01Lqwg/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidate Evaluation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1D9vr6ijk0J1-G8oC27gmvFYm2-TiyaEArGryi01Lqwg/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1904,
+        -384
+      ],
+      "id": "1adf80a8-d11e-4344-95d3-072788b48b59",
+      "name": "Get candidate's row data from candidate evaluation",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit?pli=1&gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidate Status",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1904,
+        -576
+      ],
+      "id": "dfb5b519-ad97-416d-b650-97ee604f4a5b",
+      "name": "Get candidate's row data from candidate status",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit?pli=1&gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidate Status",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Candidate Name": "={{ $json['Candidate Name'] }}",
+            "Job Role": "={{ $json[\"Job Role\"] }}",
+            "Email": "={{ $json.Email }}",
+            "Tel": "={{ $json.Tel }}",
+            "Create Date": "={{ $json.curr_datetime }}",
+            "Update Date": "={{ $json.curr_datetime }}",
+            "ID": "={{ $json.uuid }}",
+            "Candidate ID": "={{ $json.ID }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Candidate ID",
+              "displayName": "Candidate ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Job Roles ID",
+              "displayName": "Job Roles ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Candidate Name",
+              "displayName": "Candidate Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Role",
+              "displayName": "Job Role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tel",
+              "displayName": "Tel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Selection Status",
+              "displayName": "Selection Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Create Date",
+              "displayName": "Create Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Update Date",
+              "displayName": "Update Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -896,
+        -560
+      ],
+      "id": "39458f8d-f828-42c2-9028-4f87dd47a4f0",
+      "name": "Append candidate's row data into candidate status sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// รับข้อมูล input ทั้งหมดจาก Node ก่อนหน้า\nconst items = $input.all();\n\n// === ส่วนที่ 1: การคำนวณวัน/เวลา (ทำครั้งเดียวเพื่อให้ค่าเหมือนกันทุก Item) ===\n\n// 1. กำหนดค่า Date ปัจจุบัน\nconst now = new Date();\n\n// 2. สร้าง Object Date ใหม่ที่คำนวณ Timezone +7 ชั่วโมงเรียบร้อยแล้ว\n// ใช้ setHours() เพื่อบวกชั่วโมง และให้ Date Object จัดการการปรับวันที่ (Daylight Saving/ข้ามวัน) เอง\nconst offsetHours = 7;\nconst newDate = new Date(now.getTime());\nnewDate.setHours(now.getHours() + offsetHours);\n\n// Helper function สำหรับเติมเลข 0 นำหน้า (เช่น 1 -> 01)\nconst pad = (num) => String(num).padStart(2, '0');\n\n// 3. แยกส่วนประกอบของวัน-เวลาจาก 'newDate'\nconst year = newDate.getFullYear();\n// getMonth() เริ่มจาก 0 จึงต้องบวก 1\nconst month = pad(newDate.getMonth() + 1); \nconst day = pad(newDate.getDate());\n\nconst hour = pad(newDate.getHours());\nconst minute = pad(newDate.getMinutes());\nconst second = pad(newDate.getSeconds());\n\n// 4. รวมกันเป็น Format YYYY-MM-DD hh:mm:ss\nconst currentDatetime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;\n\n// 4. สร้าง UUID\nfunction generateUUID() {\n  var d = now.getTime();\n  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n    var r = (d + Math.random()*16)%16 | 0;\n    d = Math.floor(d/16);\n    return (c=='x' ? r : (r&0x3|0x8)).toString(16);\n  });\n  return uuid;\n}\n\n// === ส่วนที่ 2: การวนลูปเพื่อเพิ่ม Key ใหม่ในแต่ละ Item ===\n\n// วนลูปเพื่อเข้าถึงแต่ละรายการ (item)\nfor (const item of items) {\n\n    item.json.uuid = generateUUID();\n    item.json.curr_datetime = currentDatetime;\n}\n\n// ส่งผลลัพธ์ Array กลับ\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1088,
+        -560
+      ],
+      "id": "47dbc616-3fbd-4caf-8b49-39447c3026cb",
+      "name": "Gen current datetime & uuid"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit?pli=1&gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidate Status",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -592,
+        -368
+      ],
+      "id": "59ef500b-e481-42bf-a018-28fb79e8832b",
+      "name": "Get candidate's row data from candidate status (After append)",
+      "alwaysOutputData": false,
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit?pli=1&gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidate Status",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Job Role": "={{ $json.Title }}",
+            "Job Roles ID": "={{ $json.ID }}"
+          },
+          "matchingColumns": [
+            "Job Role"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Candidate ID",
+              "displayName": "Candidate ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Roles ID",
+              "displayName": "Job Roles ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Candidate Name",
+              "displayName": "Candidate Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Role",
+              "displayName": "Job Role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tel",
+              "displayName": "Tel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Selection Status",
+              "displayName": "Selection Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Create Date",
+              "displayName": "Create Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Update Date",
+              "displayName": "Update Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        32,
+        -448
+      ],
+      "id": "53cba51a-b6f8-4b3b-91c6-1ce3e5ea0b67",
+      "name": "Update job roles ID in candidate status sheet",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Schedue Trigger\n",
+        "height": 244,
+        "width": 236,
+        "color": 2
+      },
+      "id": "6d0b33f5-63f1-41bb-8605-130ef462f8d0",
+      "name": "Sticky Note23",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2224,
+        -544
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## 1. filter แถวข้อมูลของ candidate evaluation ที่ยังไม่ถูก append ใน candidate status\n\n## 2. gen uuid และวันเดือนปีเวลา ณ ปัจจุบันในรูปแบบที่กำหนด\n\n## 3. append row เหล่านั้นเข้า candidate status\n\n\n",
+        "height": 612,
+        "width": 1260,
+        "color": 4
+      },
+      "id": "4b7dcfa5-58d6-47f7-a105-e673d14a5df4",
+      "name": "Sticky Note24",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1968,
+        -768
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## update job roles id ใน candidate status โดยจะจับชื่อตำแหน่งงานที่ผู้สมัครแต่ละคนสมัครเข้ามากับชื่อตำแหน่งงานใน database ของเราใน job roles sheet (ยึดวันเดือนปีเวลาล่าสุด)\n\n",
+        "height": 516,
+        "width": 860,
+        "color": 6
+      },
+      "id": "36d41f49-e63c-45df-94d6-88b37a3e89b8",
+      "name": "Sticky Note25",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -656,
+        -688
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "# Workflow",
+        "height": 768,
+        "width": 2576,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2304,
+        -864
+      ],
+      "id": "5d564536-2c66-46e3-8021-6ba864489ce1",
+      "name": "Sticky Note1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 17
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2048,
+        -1504
+      ],
+      "id": "542be85a-8ce1-411d-873c-0fdb2e622f0f",
+      "name": "Schedule Trigger1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1808,
+        -1504
+      ],
+      "id": "309f14ea-6d2d-4f15-a224-dcf462637aae",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1568,
+        -1312
+      ],
+      "id": "07c7a0a6-5195-4379-9368-998d4acbbe43",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2048,
+        -1088
+      ],
+      "id": "ddb1ef65-ff26-464e-978e-13a2225b6ede",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "Candidate ID",
+              "field2": "ID"
+            }
+          ]
+        },
+        "joinMode": "keepNonMatches",
+        "outputDataFrom": "input2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1504,
+        -400
+      ],
+      "id": "6fb861d3-01e3-4431-b45c-7fae07eb6e0a",
+      "name": "Merge1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "advanced": true,
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "Title",
+              "field2": "Job Role"
+            }
+          ]
+        },
+        "outputDataFrom": "input1",
+        "options": {
+          "fuzzyCompare": true
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -176,
+        -448
+      ],
+      "id": "df1e852a-6382-45ba-b5ff-d5306c28b11d",
+      "name": "Merge2",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "content": "# ⚠️ ข้อควรระวังและการจัดการ Workflow ที่สำคัญ\n\n## 1. การจัดการ Job Roles (สำคัญมาก)\n> 🔗 [**เข้าสู่ Job Roles Sheet**](https://docs.google.com/spreadsheets/d/1VgepCVWRZzqGpTwYiLVQGtkM7S5DFW2bXGH9UA364Pw/edit?pli=1&gid=0#gid=0)\n>\n> 1. **ชื่อตำแหน่ง (Title) ต้องตรงกัน:** กรุณาตั้งชื่อ Title ใน Sheet ให้ **ตรงกับชื่อในแบบฟอร์มรับสมัครงานทุกตัวอักษร** เพื่อให้ระบบจับคู่ข้อมูลได้อย่างถูกต้อง (Exact Match Required).\n> 2. **อัปเดตสถานะ:** ควรอัปเดตสถานะของแถวใน Sheet อยู่เสมอ (เช่น `Active` หรือ `Inactive`) เพื่อควบคุม Workflow.\n\n## 2. การตรวจสอบ Workflow (เครื่องมืออัตโนมัติ)\n> ⚙️ [**เข้าสู่ n8n Workflow**](http://localhost:5678/workflow/GQG0JsqkbXgf9l7K)\n>\n> **ความสม่ำเสมอเป็นสิ่งสำคัญ:** ตรวจสอบให้แน่ใจว่า Job Role Sheet มีสถานะที่ถูกต้อง เพื่อให้ Workflow (n8n) ประมวลผลได้ตามเงื่อนไขที่กำหนด.",
+        "height": 368,
+        "width": 1008
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1040,
+        -1280
+      ],
+      "id": "3e40b797-14d8-4766-843b-af51bb44ab04",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dde63c1d-ac47-4292-86e5-05294f812956",
+              "name": "Candidate ID",
+              "value": "={{ $json[\"Candidate ID\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1680,
+        -576
+      ],
+      "id": "2eaa6f75-1b91-4d74-a118-88baf6284966",
+      "name": "Filter เอาแค่ column name \"Candidate ID\""
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5d370b33-a7c9-4490-8c70-75d7977751e9",
+              "leftValue": "={{ $json.isNotEmpty()}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1280,
+        -400
+      ],
+      "id": "7dc741e1-ff39-454e-b30e-29ac5b573499",
+      "name": "Check ว่าจำเป็นต้องมีการ update row ใน candidate status หรือไม่"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1568,
+        -1504
+      ],
+      "id": "d072087f-2d8f-4813-a997-90e3c59854d0",
+      "name": "Edit Fields",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1328,
+        -1504
+      ],
+      "id": "4ee7f1a9-e53f-49b1-ad79-0cdb9568deb5",
+      "name": "Merge",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d5dcc0c5-f35b-43f8-901c-eab0a7166e9a",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2048,
+        -1312
+      ],
+      "id": "a43ae54a-f586-4edd-aeb2-2022b7b45cd7",
+      "name": "If",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1808,
+        -1312
+      ],
+      "id": "fc30675e-81ca-4c6d-b3f1-57acf7ffc048",
+      "name": "Code in JavaScript",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "54437e1f-b5a8-4202-a0e2-40e6a2ae0d1e",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1328,
+        -1312
+      ],
+      "id": "183f887c-eeda-4b2e-8bd6-d556dd46baba",
+      "name": "Filter",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2160,
+        -464
+      ],
+      "id": "1fc31fb6-eb9e-4d83-a31c-7757309f7fe8",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1iGrtEz_v3NBe3VslyrKU7lcojiIZC3uQvhq0UKWbc_Y/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Job",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iGrtEz_v3NBe3VslyrKU7lcojiIZC3uQvhq0UKWbc_Y/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -592,
+        -560
+      ],
+      "id": "8eb33cab-8688-4815-85e6-8d1d450d9cca",
+      "name": "Get job role data",
+      "alwaysOutputData": false,
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "915e8df2-bf64-4281-9103-290b1f48d2cd",
+              "leftValue": "={{ $json[\"End Date\"].trim() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -384,
+        -560
+      ],
+      "id": "b84677a9-bd69-4d97-9f3c-69e526e2542f",
+      "name": "เลือกเฉพาะ job role แถวที่ยัง active อยู่"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get candidate's row data from candidate evaluation": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get candidate's row data from candidate status": {
+      "main": [
+        [
+          {
+            "node": "Filter เอาแค่ column name \"Candidate ID\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gen current datetime & uuid": {
+      "main": [
+        [
+          {
+            "node": "Append candidate's row data into candidate status sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append candidate's row data into candidate status sheet": {
+      "main": [
+        [
+          {
+            "node": "Get job role data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get candidate's row data from candidate status (After append)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get candidate's row data from candidate status (After append)": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        []
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Check ว่าจำเป็นต้องมีการ update row ใน candidate status หรือไม่",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Update job roles ID in candidate status sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter เอาแค่ column name \"Candidate ID\"": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check ว่าจำเป็นต้องมีการ update row ใน candidate status หรือไม่": {
+      "main": [
+        [
+          {
+            "node": "Gen current datetime & uuid",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get job role data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get candidate's row data from candidate status (After append)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        []
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get candidate's row data from candidate evaluation",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get candidate's row data from candidate status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get job role data": {
+      "main": [
+        [
+          {
+            "node": "เลือกเฉพาะ job role แถวที่ยัง active อยู่",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "เลือกเฉพาะ job role แถวที่ยัง active อยู่": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Jakarta",
+    "saveExecutionProgress": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "3fdebfad-d330-4c28-86ae-41b04508204b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "91df12515cd6a283b655811ae8756ab40523fa0fb71571e55bfaabd1064045bb"
+  },
+  "id": "5TXul0JUYRpyfnhb",
+  "tags": []
+}

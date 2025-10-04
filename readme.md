@@ -5,7 +5,7 @@ This repository serves as a collection of n8n workflows I've created. Each workf
 ### 1. How to Use n8n
 
 If you don't have n8n set up yet, you can use Docker to run it locally.
-[สอนใช้ n8n AI Automation EP01 : Install n8n ลงเครื่องตัวเองแบบฟรีๆ ผ่าน Docker.](https://www.youtube.com/watch?v=-5fvbNL8rLA&t=664s)
+[วิธีติดตั้ง n8n + Docker ที่สามารถอัพเดตเวอร์ชั่นได้โดยที่ไฟล์ข้อมูลไม่สูญหาย | QWERTY N8N EP.09.](https://www.youtube.com/watch?v=UhtT86foTrU)
 
 ### 2. Repository Purpose
 
@@ -13,12 +13,13 @@ The primary goal of this repository is to store and document various n8n workflo
 
 ### 3. Workflow Index
 
-| Workflow Name | Description | Link to Details |
-| :--- | :--- | :--- |
-| HR Screening (1st Draft) | Automates resume screening from an input form. | [View Details](https://github.com/panupong1212312121/N8N-Workflow/tree/main/workflows/hr-screening/hr-screening.md) |
-| Gen N8N Workflow (Coming Soon) | Generates an n8n workflow (.json file) from a simple prompt. | [View Details](https://github.com/panupong1212312121/N8N-Workflow/tree/main/workflows/gen-n8n-workflow/gen-n8n-workflow.md) |
+| **System Name** | **Sub-System / Workflow Name** | **Description** | **Link to Details** |
+| :---: | :--- | :--- | :--- |
+| **HR Automation** [System Overview](https://github.com/panupong1212312121/N8N-Workflow/tree/main/workflows/hr-system/hr-system.md) | HR Screening | Automates the initial screening and evaluation of resumes submitted through an input form, providing an assessment score and analysis. | [View Details](https://github.com/panupong1212312121/N8N-Workflow/tree/main/workflows/hr-system/1.hr-screening/hr-screening.md) |
+| | HR Candidate Status | Acts as a centralized tracking sheet to display essential candidate data and monitor recruitment status through various stages, such as Screening Pass, Assessment Scheduled, Interview Complete, Hired, Application Withdrawn, or Not Selected (Interview). | [View Details](https://github.com/panupong1212312121/N8N-Workflow/tree/main/workflows/hr-system/2.hr-candidate-status/hr-candidate-status.md) |
+| | HR Send Reject Message | Automatically generates and dispatches personalized rejection notifications to candidates who did not pass the selection process for specific job roles. | [View Details](https://github.com/panupong1212312121/N8N-Workflow/tree/main/workflows/hr-system/3.hr-send-reject-message/hr-send-reject-message.md) |
 
 Feel free to explore the folders to find the workflow you need!
 
 ### 📝 Memo
-Workflows cannot be used directly in n8n. You must first configure the necessary settings, such as credentials and API keys for services like Google Drive, Google Sheets, Gemini etc.
+Workflows cannot be used directly in n8n. You must first configure the necessary settings, such as credentials and API keys for services like Google Drive, Google Sheets, Open Router, OpenAI, Gemini etc.

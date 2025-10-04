@@ -1,0 +1,1555 @@
+{
+  "name": "HR Screening (2nd draft)",
+  "nodes": [
+    {
+      "parameters": {
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        272,
+        64
+      ],
+      "id": "6b2b3cc6-0839-4414-a89f-66cf021d8d0e",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "9J04Q2IquoUa8oI9",
+          "name": "Google Drive account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        656,
+        64
+      ],
+      "id": "15bb609d-fb54-40ec-80fc-e02910be68d1",
+      "name": "Information Extractor",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        112,
+        432
+      ],
+      "id": "7c6ec44b-989a-47f7-ad61-6c83fd342f50",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "# Node ที่ใช้",
+        "height": 640,
+        "width": 1024,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "47bf1d78-76df-42ad-893a-cfd340d8f44d",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        112,
+        240
+      ],
+      "id": "840bdfbd-3dcd-4fa2-a7f8-b74f502421ac",
+      "name": "Merge",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        352,
+        448
+      ],
+      "id": "759fc0d9-60e3-4f1d-9151-a17f900237b6",
+      "name": "Structured Output Parser",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        464,
+        64
+      ],
+      "id": "3d1bbf59-7c90-4c47-893f-b49f77335dca",
+      "name": "Extract from File",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        112,
+        64
+      ],
+      "id": "92660312-ce22-4d83-a920-f9b052f71552",
+      "name": "On form submission",
+      "webhookId": "b1c915fa-d692-4aca-8d29-71e8bd7c550a",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "typeVersion": 2.1,
+      "position": [
+        320,
+        240
+      ],
+      "id": "c8542f3b-396e-4d0c-8ec7-f9902a817016",
+      "name": "Summarization Chain",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $json.JD }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        736,
+        448
+      ],
+      "id": "28ab45c4-d632-42e5-ac1b-a8259d2635f3",
+      "name": "Get a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "TC0rOSKZJmqDBrkV",
+          "name": "Google Docs account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// รับข้อมูล input ทั้งหมด\n\nconst items = $input.all();\n\n\n\n// วนลูปเพื่อเข้าถึงแต่ละรายการ (item)\n\nfor (const item of items) {\n\n  // รับค่า submittedAt จาก JSON\n\n  const submittedAt = item.json.submittedAt;\n\n\n\n  // สร้าง object วันที่จากค่า ISO 8601 string\n\n  const dateObj = new Date(submittedAt);\n\n\n\n  // ดึงส่วนต่างๆ ของวันที่และเวลา\n\n  const year = dateObj.getFullYear();\n\n  const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // เดือนเริ่มจาก 0\n\n  const day = String(dateObj.getDate()).padStart(2, '0');\n\n  const hours = String(dateObj.getHours()).padStart(2, '0');\n\n  const minutes = String(dateObj.getMinutes()).padStart(2, '0');\n\n  const seconds = String(dateObj.getSeconds()).padStart(2, '0');\n\n\n\n  // สร้าง string วันที่และเวลาในรูปแบบที่ต้องการ\n\n  const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;\n\n\n\n  // เพิ่ม field ใหม่ใน JSON เพื่อเก็บค่าที่แปลงแล้ว\n\n  item.json.formattedDate = formattedDate;\n\n\n\n  // *** เพิ่มโค้ดส่วนนี้เพื่อเพิ่ม key 'candidate_source' ***\n\n  item.json.candidateSource = 'https://drive.google.com/drive/u/0/folders/1ElR8WmzK0tc2XtKqdfVHNpbx9VqWwvYP';\n\n}\n\n\n\n// ส่งผลลัพธ์กลับ\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        512,
+        432
+      ],
+      "id": "cc2ff05a-8cd7-43ac-8800-4a3fdf5a2d40",
+      "name": "Code",
+      "executeOnce": false,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-20b:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        848,
+        1104
+      ],
+      "id": "c1bee3a8-6b94-48df-85e1-a96d26d167c9",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "kZS7W9Tr1Z3j6jt6",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ให้คะแนนผู้สมัครจาก 1-10 (เหมาะสมน้อยสุดไปมากสุด) พร้อมระบุเหตุผล",
+        "height": 240,
+        "width": 424
+      },
+      "id": "dcf7c31b-fd20-49de-996f-e2efc6561c78",
+      "name": "Sticky Note13",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1248,
+        720
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## form สำหรับให้ผู้สมัครกรอกข้อมูล\n\n",
+        "height": 244,
+        "width": 236,
+        "color": 2
+      },
+      "id": "8dd6a678-b70f-457c-89fe-ec84018cea6b",
+      "name": "Sticky Note14",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -720,
+        1104
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## extract ข้อมูลผู้สมัคร\n\n",
+        "height": 228,
+        "width": 236
+      },
+      "id": "eca91fda-7444-4953-898c-4bf012bf4549",
+      "name": "Sticky Note15",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -432,
+        704
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## สรุปข้อมูลต่าง ๆ ของผูสมัคร",
+        "height": 224,
+        "width": 272
+      },
+      "id": "7aa2e33a-5926-4a28-b485-b4c7f5eefdaa",
+      "name": "Sticky Note16",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -160,
+        704
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## อ่านรายละเอียดตำแหน่งต่าง ๆ ที่เปิดรับพร้อมกับดึง jd ที่ตรงกับตำแหน่งที่ candidate สมัครเข้ามา\n",
+        "height": 260,
+        "width": 540,
+        "color": 4
+      },
+      "id": "dbed53a7-cf22-4f68-b5ba-896230df01d6",
+      "name": "Sticky Note17",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        176,
+        1120
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## นำเข้าเกณฑ์การพิจารณาให้คะแนน\n\n",
+        "height": 228,
+        "width": 300,
+        "color": 4
+      },
+      "id": "c798ceb5-15dd-42c6-a2c0-6e4ea922793a",
+      "name": "Sticky Note18",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -144,
+        960
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## upload resume ผู้สมัครเข้าไปใน folder ของผู้สมัครคนนั้น",
+        "height": 244,
+        "width": 364,
+        "color": 4
+      },
+      "id": "de964f17-ef77-4935-b448-ddffca39883a",
+      "name": "Sticky Note19",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1136,
+        1360
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## นำข้อมูลผู้สมัครไปต่อจากแถวเดิมเพื่อเก็บไว้\n",
+        "height": 244,
+        "width": 284,
+        "color": 4
+      },
+      "id": "da208a9f-8826-4f1a-86a2-95c7cabe0b36",
+      "name": "Sticky Note20",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1888,
+        1056
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## สร้าง folder เอาไว้เก็บ resume ผู้สมัคร \n\n### ถ้ามี folder สำหรับเก็บอาชีพนั้น -> สร้าง folder ชื่อผู้สมัครคนนั้นพร้อมวันเดือนปีกำกับข้างใน folder เก็บอาชีพนั้น\n\n### ถ้าไม่มี folder สำหรับเก็บอาชีพนั้น -> สร้าง folder เก็บอาชีพนั้น -> สร้าง folder ชื่อผู้สมัครคนนั้นพร้อมวันเดือนปีกำกับข้างใน folder เก็บอาชีพนั้น",
+        "height": 612,
+        "width": 1468,
+        "color": 6
+      },
+      "id": "1efaff8d-ba45-4890-8204-581041515c11",
+      "name": "Sticky Note21",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -496,
+        1424
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "# Workflow",
+        "height": 1392,
+        "width": 2976,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -784,
+        672
+      ],
+      "id": "a571cf4e-7749-4c44-89f2-81eff01c3e73",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "formTitle": "Candidate Form",
+        "formDescription": "=กรุณากรอกข้อมูลให้ครบถ้วน",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "Email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Resume",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".pdf",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Job Role",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "AI Transformation Specialist"
+                  },
+                  {
+                    "option": "AI Creator"
+                  },
+                  {
+                    "option": "Reception"
+                  },
+                  {
+                    "option": "Photographer"
+                  },
+                  {
+                    "option": "Cybersecurity Specialist"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "customCss": ""
+        }
+      },
+      "id": "1120c809-4d32-4740-94f7-208af586ab61",
+      "name": "Resume form submission",
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        -656,
+        1184
+      ],
+      "webhookId": "dc05a7ed-eaf1-467e-a2ce-451d6d41bf9e",
+      "typeVersion": 2.2,
+      "executeOnce": false,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "=Resume",
+        "options": {}
+      },
+      "id": "145b0d21-9bdf-48f0-ab45-e76a286d173d",
+      "name": "Extract resume's detail",
+      "type": "n8n-nodes-base.extractFromFile",
+      "position": [
+        -368,
+        784
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "text": "=Analyze this detail {{ $json.text }} and then divide into 8 parts below\n\n1. address\n\n2. tel\n\n3. portfolio url\n\n4. education - Summary of your academic career. Focus on your high school and university studies. Summarize in 50 words maximum and also include your grade if applicable.\n\n5. experience - Work history summary. Focus on all work experiences. What have the applicants done, been responsible for, and accomplished? Summarize in 500 words maximum. Focus specifically on measurable achievements, key responsibilities, and outcomes that demonstrate impact, efficiency, or project success in their previous roles.\n\n6. skill - Extract all of the candidate’s skills. **Include both Hard Skills (e.g., technical tools, software, languages, certifications) and Soft Skills (e.g., communication, leadership, problem-solving, teamwork).** Make a comprehensive bulleted list.\n\n7. Activity - Summary of professional, internship, and university activities. Summarize in 50 words maximum.\n\n8. Certificate & Award - Summary of professional, internship, and university awards or recognitions. Summarize in 50 words maximum.\n\nsave these 8 topics into each relevant key in structured output parser",
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"address\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n        \"tel\": {\n  \t\t\t\"type\": \"string\"\n  \t\t},\n        \"portfolio url\": {\n  \t\t\t\"type\": \"string\"\n  \t\t},\n        \"education\": {\n  \t\t\t\"type\": \"string\"\n  \t\t},\n        \"experience\": {\n  \t\t\t\"type\": \"string\"\n  \t\t},\n        \"skill\": {\n  \t\t\t\"type\": \"string\"\n  \t\t},\n        \"activity\": {\n  \t\t\t\"type\": \"string\"\n  \t\t},\n        \"certificate_award\": {\n  \t\t\t\"type\": \"string\"\n  \t\t}\n\t}\n}",
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nIf you cannot find a value for an attribute, set its value to 'null' or an empty string, but DO NOT OMIT the key."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        -144,
+        784
+      ],
+      "id": "914e44a3-265e-42f1-869e-bfa9a98fc262",
+      "name": "Summarize candidate's detail"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1D9vr6ijk0J1-G8oC27gmvFYm2-TiyaEArGryi01Lqwg/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidate Evaluation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1D9vr6ijk0J1-G8oC27gmvFYm2-TiyaEArGryi01Lqwg/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        0,
+        1040
+      ],
+      "id": "79769e03-e977-46e0-a67c-3d9d5bc4d059",
+      "name": "Read metric evaluation",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1iGrtEz_v3NBe3VslyrKU7lcojiIZC3uQvhq0UKWbc_Y/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Job",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iGrtEz_v3NBe3VslyrKU7lcojiIZC3uQvhq0UKWbc_Y/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Title",
+              "lookupValue": "={{ $json[\"Job Role\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        256,
+        1200
+      ],
+      "id": "4cc19300-3fb6-4143-8485-c3cc1aee2914",
+      "name": "Read job role worksheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $json.JD }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        464,
+        1200
+      ],
+      "id": "b1b5b350-e4cd-4676-9518-d0c22e9719f3",
+      "name": "Read jd that corresponds job role",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "TC0rOSKZJmqDBrkV",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=คุณสมบัติผู้สมัครเป็นดังนี้ :\neducation:\n{{ $json.qualification.education }}\n\nexperience:\n{{ $json.qualification.experience }}\n\nskill:\n{{ $json.qualification.skill }}\n\nคุณสมบัติที่เราอยากได้เป็นดังนี้ :\n{{ $json.jd }}\n\nและเกณฑ์การให้คะแนนมีรายละเอียดดังนี้ :\n{{ $json.evaluation.map(item => `\nคะแนน: ${item.score}\nแปลผล: ${item.definition}\nคำอธิบาย: ${item.description}\nตัวอย่าง: ${item.example}\n`).join('\\n') }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are a highly experienced and meticulous HR expert specializing in candidate assessment. Your primary goal is to provide a consistent and objective evaluation score and analysis based *strictly* on the provided criteria.\n\n**INSTRUCTIONS & CONSTRAINTS:**\n1.  **Strict Adherence to Criteria:** You MUST follow the scoring system and definitions provided in the 'เกณฑ์การให้คะแนน' section. Do not introduce external grading logic.\n2.  **Scoring Step-by-Step (Internal Process):**\n    * **Step 1 (Analyze):** Systematically compare the candidate's 'education', 'experience', and 'skill' with the required 'คุณสมบัติที่เราอยากได้'.\n    * **Step 2 (Match to Criteria):** Determine which score range (e.g., 5-6, 7-8) in the 'เกณฑ์การให้คะแนน' best describes the overall match.\n    * **Step 3 (Final Score Selection):** Select a specific score (1 to 10) within the matched range.\n3.  **Output Structure and Quality:**\n    * **Evidence-Based Justification:** All reasons provided in `reason_strengths` and `reason_gaps` **MUST explicitly reference specific facts or achievements** (e.g., mention a specific skill, tool, or outcome) from the candidate's profile.\n    * **Format Requirement:** Both `reason_strengths` and `reason_gaps` MUST be presented as a **Numbered List**, with **one blank line separating each point** (i.e., double line break).\n    * **Impact Level Tag:** Each point in the numbered list **MUST** end with **ONE** of the following specific tags in parentheses: **(Strong)**, **(Moderate)**, or **(Weak)**. This tag is mandatory for every single numbered item.\n    * **Prioritization Rule:** The numbered list for BOTH `reason_strengths` and `reason_gaps` **MUST be sorted by importance, starting with the strongest factor (Strong) and ending with the weakest factor (Weak).**\n    * **⚠️ ABSOLUTE WORD LIMIT:** The total content for **EACH** field (`reason_strengths` and `reason_gaps`) **MUST NOT EXCEED 150 words under any circumstances**. The content should be concise and proportional to the actual findings.\n    * **Language Tone:** Maintain an objective, professional, and non-judgemental tone in Thai.\n\nYou must provide an assessment using the following structure:\n1.  **score**: The final numerical score from 1 to 10 (Integer).\n2.  **reason_strengths**: A professional summary of the core strengths and alignments that justify the score, presented as a numbered list where **EVERY** item includes an impact tag, **sorted from Strongest to Weakest impact**. (In Thai, **MAXIMUM 150 words**).\n3.  **reason_gaps**: A professional summary of the main gaps and areas for development compared to the ideal profile, presented as a numbered list where **EVERY** item includes an impact tag, **sorted from Strongest to Weakest impact**. (In Thai, **MAXIMUM 150 words**).\n\nYour final output MUST strictly adhere to the defined structured output schema."
+            }
+          ]
+        }
+      },
+      "id": "0e763ec6-ab98-4f4d-b016-fac1e9402471",
+      "name": "Scoring & Reasoning",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        1280,
+        800
+      ],
+      "typeVersion": 1.5
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1D9vr6ijk0J1-G8oC27gmvFYm2-TiyaEArGryi01Lqwg/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Candidate Evaluation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1D9vr6ijk0J1-G8oC27gmvFYm2-TiyaEArGryi01Lqwg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Candidate Profile": "=https://drive.google.com/drive/u/0/folders/{{ $json.parents}}",
+            "Candidate Name": "={{ $json.Name }}",
+            "Job Role": "={{ $json[\"Job Role\"] }}",
+            "Resume Name": "={{ $json.Resume.filename }}",
+            "Email": "={{ $json.Email }}",
+            "Address": "={{ $json.output.address }}",
+            "Tel": "={{ $json.output.tel }}",
+            "Porfolio": "={{ $json.output['portfolio url'] }}",
+            "Score": "={{ $json.output.vote }}",
+            "Create Date": "={{ $json.formattedDate }}",
+            "Update Date": "={{ $json.formattedDate }}",
+            "Reason Strengths": "={{ $json.output.reason_strengths }}",
+            "Reason Gaps": "={{ $json.output.reason_gaps }}",
+            "ID": "={{ $json.uuid }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Candidate Profile",
+              "displayName": "Candidate Profile",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Candidate Name",
+              "displayName": "Candidate Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Resume Name",
+              "displayName": "Resume Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Role",
+              "displayName": "Job Role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tel",
+              "displayName": "Tel",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Porfolio",
+              "displayName": "Porfolio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Score",
+              "displayName": "Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Reason Strengths",
+              "displayName": "Reason Strengths",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Reason Gaps",
+              "displayName": "Reason Gaps",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Create Date",
+              "displayName": "Create Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Update Date",
+              "displayName": "Update Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1984,
+        1136
+      ],
+      "id": "4aace331-616e-4028-b6c8-4118c52b4578",
+      "name": "Append candidate's row data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "RGLXlyS8eUGhktgd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "Resume",
+        "name": "={{ $json.Resume.filename }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{$json.id}}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        1440
+      ],
+      "id": "d0970021-7b59-482a-9834-6c12cbd0dadd",
+      "name": "Upload candidate's resume file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "9J04Q2IquoUa8oI9",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $json.Name }}_{{ $json.formattedDate }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        848,
+        1616
+      ],
+      "id": "010e654f-ce6d-45b9-854b-24bec7c62a32",
+      "name": "Create candidate's folder",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "9J04Q2IquoUa8oI9",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json['Job Role'] }}",
+        "filter": {
+          "driveId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "https://drive.google.com/drive/u/0/folders/1ElR8WmzK0tc2XtKqdfVHNpbx9VqWwvYP",
+            "mode": "url"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -288,
+        1632
+      ],
+      "id": "a5cd866e-a692-4f6b-884d-b9465aaf5728",
+      "name": "Search job role",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "9J04Q2IquoUa8oI9",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8c27b7f8-66d1-450f-ac74-ef32a1d93495",
+              "leftValue": "={{ $json.isNotEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -80,
+        1632
+      ],
+      "id": "6ee8c3cf-5d73-49dc-8120-9ac7374d3d0f",
+      "name": "Check whether job role folder exist or not",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $json['Job Role'] }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "https://drive.google.com/drive/u/0/folders/1ElR8WmzK0tc2XtKqdfVHNpbx9VqWwvYP",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        288,
+        1856
+      ],
+      "id": "369ecc18-e567-4a59-8524-e6f08273263d",
+      "name": "Create job role folder",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "9J04Q2IquoUa8oI9",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "id": "0abd448a-27a3-4e98-bc7e-7d5e168751ca",
+      "name": "Merge1",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        672,
+        896
+      ],
+      "typeVersion": 3.1
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        112,
+        1856
+      ],
+      "id": "5b528b51-3e73-404d-b4f5-293a9e88c2c2",
+      "name": "Merge2",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        464,
+        1616
+      ],
+      "id": "e5c87e54-919b-438b-a04e-0bb29231a1fa",
+      "name": "Merge3",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        464,
+        1776
+      ],
+      "id": "27ed433b-868f-4347-bfef-1593ca88199f",
+      "name": "Merge4",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        992,
+        1440
+      ],
+      "id": "ed2869a3-af54-42f0-8092-c383b6815a38",
+      "name": "Merge5",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 6,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1712,
+        1104
+      ],
+      "id": "53380606-452d-4c4c-ae16-9132d33c7276",
+      "name": "Merge6"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"vote\": {\n\t\t\t\"type\": \"integer\"\n\t\t},\n\t\t\"reason_strengths\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"reason_gaps\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}"
+      },
+      "id": "2351f4a6-0df6-4314-9a19-26793385c5f3",
+      "name": "Structured Output Parser (โครงสร้าง Json Output ที่อยากให้เป็น)",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        1424,
+        976
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "jsCode": "// รับข้อมูล input ทั้งหมด\nconst items = $input.all();\n\n// สร้าง object เพื่อเก็บข้อมูลจากแต่ละส่วน\nlet qualification = null;\nlet jd = null;\nlet evaluation = [];\n\n// วนลูปเพื่อจัดเรียงข้อมูลตาม key ที่ต้องการ\nfor (const item of items) {\n  // ตรวจสอบว่ามีคีย์ 'output' และมีค่าอยู่หรือไม่ เพื่อดึงข้อมูล qualification\n  // qualification คือข้อมูลของผู้สมัครจาก item แรก\n  if (item.json.output) {\n    qualification = item.json.output;\n  }\n  \n  // ตรวจสอบว่ามีคีย์ 'documentId' และ 'content' อยู่หรือไม่ เพื่อดึงข้อมูล jd\n  // jd คือข้อมูล Job Description จาก item ที่สอง\n  if (item.json.documentId && item.json.content) {\n    jd = item.json.content;\n  }\n  \n  // ตรวจสอบว่ามีคีย์ 'Score' อยู่หรือไม่ เพื่อดึงข้อมูล evaluation\n  // evaluation คือข้อมูลเกณฑ์การประเมินจาก item ที่เหลือ\n  if (item.json.hasOwnProperty('Score')) {\n    const evalData = {\n      score: item.json.Score,\n      definition: item.json.Definition,\n      description: item.json.Description,\n      example: item.json.Example\n    };\n    evaluation.push(evalData);\n  }\n}\n\n// สร้าง JSON object ใหม่ตามโครงสร้างที่ต้องการ\nconst newJson = {\n  qualification: qualification,\n  jd: jd,\n  evaluation: evaluation\n};\n\n// ส่งผลลัพธ์ใหม่กลับไป\nreturn [{ json: newJson }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        800
+      ],
+      "id": "3e3f401d-e5a8-433a-bd1b-f8a5830ae804",
+      "name": "Transform json input",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "jsCode": "// รับข้อมูล input ทั้งหมด\nconst items = $input.all();\n\n// กำหนด Timezone Offset ที่ต้องการ (เช่น +7 ชั่วโมง)\nconst offsetHours = 7;\n\n// วนลูปเพื่อเข้าถึงแต่ละรายการ (item)\nfor (const item of items) {\n  // รับค่า submittedAt จาก JSON\n  const submittedAt = item.json.submittedAt;\n\n  // 1. สร้าง object วันที่จากค่า ISO 8601 string เดิม\n  const dateObj = new Date(submittedAt);\n\n  // 2. สร้าง object วันที่ใหม่เพื่อทำการคำนวณ\n  // การใช้ setHours() บน Object เดิมอาจทำให้เกิดผลข้างเคียง, จึงสร้าง Object ใหม่\n  const newDate = new Date(dateObj.getTime());\n\n  // 3. ปรับชั่วโมง: setHours() จะจัดการการข้ามวัน/เดือน/ปี ให้โดยอัตโนมัติ\n  // เช่น ถ้าเวลาเดิมคือ 22:00 น. การบวก 7 จะได้ 29:00 น. ซึ่ง JS จะแปลงเป็น 05:00 น. ของวันถัดไป\n  newDate.setHours(dateObj.getHours() + offsetHours);\n\n  // Helper function สำหรับเติมเลข 0 นำหน้า (เช่น 1 -> 01)\n  const pad = (num) => String(num).padStart(2, '0');\n\n  // 4. ดึงส่วนต่างๆ ของวันที่และเวลาจาก 'newDate' ที่คำนวณแล้ว\n  const year = newDate.getFullYear();\n  const month = pad(newDate.getMonth() + 1); // เดือนเริ่มจาก 0\n  const day = pad(newDate.getDate());\n  \n  // ดึงชั่วโมงที่ปรับปรุงแล้ว\n  const hours = pad(newDate.getHours()); \n  \n  const minutes = pad(newDate.getMinutes());\n  const seconds = pad(newDate.getSeconds());\n\n  // 5. สร้าง string วันที่และเวลาในรูปแบบที่ต้องการ\n  const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;\n\n  // 6. เพิ่ม field ใหม่ใน JSON เพื่อเก็บค่าที่แปลงแล้ว\n  item.json.formattedDate = formattedDate;\n}\n\n// ส่งผลลัพธ์กลับ\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        656,
+        1520
+      ],
+      "id": "49df9576-3e96-454b-8435-2f33053619bb",
+      "name": "Transform datetime",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "model": "qwen/qwen3-4b:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        688,
+        272
+      ],
+      "id": "83a26556-e5aa-4747-b721-f96dba0160aa",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "kZS7W9Tr1Z3j6jt6",
+          "name": "OpenRouter account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## ส่ง G-mail แจ้งผู้สมัครว่าได้รับข้อมูลแล้ว",
+        "height": 244,
+        "width": 284,
+        "color": 4
+      },
+      "id": "703fc8bf-7979-486d-8dfc-a94d2545d38b",
+      "name": "Sticky Note22",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1888,
+        1392
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Thank You for Applying to the \"{{ $json['Job Role'] }}\" Role at ABC.",
+        "message": "=<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"margin-bottom: 20px;\">\n    <tr>\n        <td align=\"center\">\n            <img src=\"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_92x30dp.png\" alt=\"ABC Company Logo\" style=\"max-width: 150px; height: auto; display: block;\">\n        </td>\n    </tr>\n</table>\n<hr style=\"border: 0; height: 1px; background: #ddd; margin: 15px 0;\">\n\n<p>Dear K.<strong>{{ $json.Name }}</strong>,</p>\n\n<p>Thank you very much for your interest in the \"<span style=\"color: #007bff; font-weight: bold;\">{{ $json['Job Role'] }}</span>\" position at ABC. We sincerely appreciate you taking the time to submit your application and share your qualifications with us.</p>\n\n<p>Your application is currently under review. If your experience and skills align with the requirements for this role, a member of our hiring team will contact you within <span style=\"background-color: #fff3cd; padding: 2px 4px; border-radius: 3px; font-weight: bold;\">7 business days</span> to discuss the next steps.</p>\n\n<p>We appreciate your patience during this selection process.</p>\n\n<p>We wish you the best of luck in your job search.</p>\n\n<p style=\"margin-top: 30px;\">\n    Sincerely,<br>\n    <br>\n    <strong>HR Team</strong><br>\n    <span style=\"color: #555555;\">ABC Company</span>\n</p>\n\n<hr style=\"border: 0; height: 1px; background: #ddd; margin: 25px 0 15px 0;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n    <tr>\n        <td style=\"font-size: 12px; color: #888888; line-height: 1.5;\">\n            <strong>ABC Company Headquarters</strong><br>\n            99/99 Silicon Valley Road, Bangkok, 10000<br>\n            Tel: (66) 02-XXX-XXXX | Email: <a href=\"mailto:hr@abccompany.com\" style=\"color: #007bff; text-decoration: none;\">hr@abccompany.com</a><br>\n            <br>\n            <a href=\"https://www.abccompany.com/careers\" style=\"color: #007bff; text-decoration: none;\">View All Openings</a> | <a href=\"https://www.abccompany.com/unsubscribe\" style=\"color: #007bff; text-decoration: none;\">Unsubscribe</a>\n        </td>\n    </tr>\n</table>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1984,
+        1472
+      ],
+      "id": "b8bd085b-908b-4a3d-a5e5-1a7553afe226",
+      "name": "Send a message",
+      "webhookId": "345abdb9-faf1-4efa-8031-afc7e1425df3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ap1610n2EDygrcwr",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-pro-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        848,
+        288
+      ],
+      "id": "d7e1372e-e993-4a39-8e54-4546c0a9e9a9",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1HpVjC6Klk7WP4RG",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "function generateUUID() {\n  var d = new Date().getTime();\n  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n    var r = (d + Math.random()*16)%16 | 0;\n    d = Math.floor(d/16);\n    return (c=='x' ? r : (r&0x3|0x8)).toString(16);\n  });\n  return uuid;\n}\n\n// ส่งค่า UUID กลับเป็น Output\nreturn [{\n  json: {\n    uuid: generateUUID() \n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        1440
+      ],
+      "id": "4d6dffab-077b-4b68-98da-425fe95ece23",
+      "name": "Gen UUID"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Scoring & Reasoning",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Summarize candidate's detail",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resume form submission": {
+      "main": [
+        [
+          {
+            "node": "Extract resume's detail",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Search job role",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read job role worksheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read metric evaluation",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge6",
+            "type": "main",
+            "index": 2
+          },
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract resume's detail": {
+      "main": [
+        [
+          {
+            "node": "Summarize candidate's detail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize candidate's detail": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge6",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Read metric evaluation": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Read job role worksheet": {
+      "main": [
+        [
+          {
+            "node": "Read jd that corresponds job role",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read jd that corresponds job role": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Scoring & Reasoning": {
+      "main": [
+        [
+          {
+            "node": "Merge6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload candidate's resume file": {
+      "main": [
+        [
+          {
+            "node": "Merge6",
+            "type": "main",
+            "index": 3
+          },
+          {
+            "node": "Gen UUID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create candidate's folder": {
+      "main": [
+        [
+          {
+            "node": "Merge5",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Search job role": {
+      "main": [
+        [
+          {
+            "node": "Check whether job role folder exist or not",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check whether job role folder exist or not": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Create job role folder": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Transform json input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Create job role folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Transform datetime",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge4": {
+      "main": [
+        [
+          {
+            "node": "Transform datetime",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge5": {
+      "main": [
+        [
+          {
+            "node": "Upload candidate's resume file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge6": {
+      "main": [
+        [
+          {
+            "node": "Append candidate's row data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser (โครงสร้าง Json Output ที่อยากให้เป็น)": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Scoring & Reasoning",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform json input": {
+      "main": [
+        [
+          {
+            "node": "Scoring & Reasoning",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform datetime": {
+      "main": [
+        [
+          {
+            "node": "Create candidate's folder",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge6",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Append candidate's row data": {
+      "main": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Gen UUID": {
+      "main": [
+        [
+          {
+            "node": "Merge6",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Jakarta",
+    "saveExecutionProgress": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "d7f4bbde-cba3-44ca-9f8a-cf168b3b5c2d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "91df12515cd6a283b655811ae8756ab40523fa0fb71571e55bfaabd1064045bb"
+  },
+  "id": "GQG0JsqkbXgf9l7K",
+  "tags": []
+}
